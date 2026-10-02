@@ -1,7 +1,7 @@
-import { MongoClient } from "mongodb";
 import "dotenv/config";
+import { MongoClient } from "mongodb";
 
-const uri = process.env.MONGO_URI || "mongodb://localhost:27017";
+const uri = process.env.MONGO_URI;
 const dbName = process.env.DB_NAME || "incident-map";
 
 let db = null;

@@ -12,12 +12,17 @@ const userSchema = z.object({
     .regex(/[^A-Za-z0-9]/, "Password must have at least one special character"),
 });
 
-export async function createUser({ email, password }) {
+export async function createUser(email, password) {
   const validation = userSchema.safeParse({ email, password });
   if (!validation.success)
     throw Object.assign(new Error(validation.error.issues[0].message), {
       status: 400,
     });
   const hashPassword = await bcrypt.hash(password, 12);
-  return { email: validation.data.email, password: hashPassword };
+  return {
+    email: validation.data.email,
+    password: hashPassword,
+    role: "user",
+    createdAt: new Date(),
+  };
 }
