@@ -16,6 +16,15 @@ export function createRepo(collection) {
   async function getById(id) {
     const result = await collection.findOne({ _id: new ObjectId(id) });
     if (!result) return null;
+    result.id = result._id.toString();
+    delete result._id;
+
+    return result;
+  }
+
+  async function getByEmail(email) {
+    const result = await collection.findOne({ email });
+    if (!result) return null;
     return { id: result._id.toString(), ...result };
   }
 
@@ -42,7 +51,7 @@ export function createRepo(collection) {
   return {
     createOne,
     getById,
-    getBy,
+    getByEmail,
     updateById,
     deleteById,
   };
