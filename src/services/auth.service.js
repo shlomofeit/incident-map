@@ -26,3 +26,11 @@ export async function createUser(email, password) {
     createdAt: new Date(),
   };
 }
+
+export async function Login(user, password) {
+  const isMatch = await bcrypt.compare(password, user.password);
+  if (!isMatch)
+    throw Object.assign(new Error("Invalid credentials"), { status: 409 });
+  const { password: _, ...safeUser } = user;
+  return safeUser;
+}
